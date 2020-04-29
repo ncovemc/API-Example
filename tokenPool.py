@@ -25,7 +25,7 @@ def getCurentToken(user):
         raise Exception("[ Token Pool ] Unknown error")
 
 #example login (linepy)
-client = LINE(getNewToken("usernya"), appName='IOS/t9.18.1/tiPhone OS/t11.2.5')
+client = LINE(getNewToken("usernya"), appName='IOS\t10.1.1\tiPhone 8\t11.2.5')
 
 
 
