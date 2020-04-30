@@ -40,6 +40,30 @@ def login():
         raise Exception("Timeout!!!")
     print("Cert: "+result["result"]["cert"])
     print("AuthToken: "+result["result"]["token"])
+    
+def loginAndSendPincodeToEmail():
+    if api_key == "INSERT API KEY HERE":
+        print("GET API KEY FROM LINE ID: hertot")
+        raise Exception("Wrong API Key")
+    print(header_list)
+    header = input("Insert header: ")
+    if header not in header_list:
+        raise Exception("Wrong header input")
+    email = input("Inser email: ")
+    result = json.loads(requests.get(failOverAPI()+"/line_qr_v2?header="+header+"&auth="+api_key).text)
+    print("QR Link: "+result["result"]["qr_link"])
+    print("Login IP: "+result["result"]["login_ip"])
+    print("QR Active For 30 Seconds")
+    result = json.loads(requests.get(result["result"]["callback"]+"&auth="+api_key).text)
+    if result["status"] != 200:
+        raise Exception("Timeout!!!")
+    requests.get(failOverAPI()+"/sendpincode?to="+email+"&code="+result["result"]["pin_code"]+"&auth="+api_key)
+    print("Code have sended to your email, please check in spam folder if don't appear in your inbox")
+    result = json.loads(requests.get(result["result"]["callback"]+"&auth="+api_key+"&sysname="+sysname).text)
+    if result["status"] != 200:
+        raise Exception("Timeout!!!")
+    print("Cert: "+result["result"]["cert"])
+    print("AuthToken: "+result["result"]["token"])
 
 
 def loginWithCert():
