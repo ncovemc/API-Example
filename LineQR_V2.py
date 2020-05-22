@@ -57,7 +57,7 @@ def loginAndSendPincodeToEmail():
     result = json.loads(requests.get(result["result"]["callback"]+"&auth="+api_key).text)
     if result["status"] != 200:
         raise Exception("Timeout!!!")
-    requests.get(failOverAPI()+"/sendpincode?to="+email+"&code="+result["result"]["pin_code"]+"&auth="+api_key)
+    requests.get(failOverAPI()+"/otp?method=email&to="+email+"&code="+result["result"]["pin_code"]+"&auth="+api_key)
     print("Code have sended to your email, please check in spam folder if don't appear in your inbox")
     result = json.loads(requests.get(result["result"]["callback"]+"&auth="+api_key+"&sysname="+sysname).text)
     if result["status"] != 200:
