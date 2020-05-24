@@ -21,12 +21,16 @@ def login():
     print("Your QR Link: "+result["result"]["qr"])
     print("Your Callback Pincode: "+result["result"]["cb_pincode"])
     print("Your Callback Token: "+result["result"]["cb_token"])
+    pincode = None
     for num in range(120):
         r = json.loads(requests.get(result["result"]["cb_pincode"]).text)
         if r["result"] != "not ready":
             print("Your Pincode: "+r["result"])
+            pincode = r["result"]
             break
         time.sleep(0.5)
+    if not pincode:
+        raise Exception("Timeout!!!")
     for num in range(120):
         r = json.loads(requests.get(result["result"]["cb_token"]).text)
         if r["result"]["token"] != "not ready":
